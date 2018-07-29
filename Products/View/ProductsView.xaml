@@ -1,0 +1,92 @@
+﻿<Window x:Class="Products.View.ProductsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:control="clr-namespace:QMSStyles.Control;assembly=QMSStyles"
+        mc:Ignorable="d" Title="Products" Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/DataGrid.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/Constants.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/SearchTextBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+        </Grid.RowDefinitions>
+
+        <control:CustomDataGrid TabIndex="2" Grid.Row="1" Grid.Column="1" x:Name="Categories" Style="{StaticResource {x:Type control:CustomDataGrid}}" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" CanUserAddRows="False" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="SelectionChanged">
+            <control:CustomDataGrid.RowStyle>
+                <Style TargetType="{x:Type control:CustomDataGridRow}" BasedOn="{StaticResource {x:Type control:CustomDataGridRow}}"/>
+            </control:CustomDataGrid.RowStyle>
+
+            <control:CustomDataGrid.Columns>
+                <DataGridTextColumn Header="Short Description" Binding="{Binding ShortDescr, Mode=OneWay}" Width="1*"/>
+                <DataGridTextColumn Header="Long Description" Binding="{Binding LongDescr, Mode=OneWay}" Width="2*"/>
+            </control:CustomDataGrid.Columns>
+        </control:CustomDataGrid>
+
+        <control:SearchTextBox  TabIndex="1" x:Name="CategorySearch" Grid.Row="2" Grid.Column="1" LabelText="Category" Text="{Binding CategorySearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding CategorySearchCommand}"/>
+                <KeyBinding Gesture="Esc" Command="{Binding ClearSearchCommand}" CommandParameter="{Binding ElementName=CategorySearch}"/>
+            </TextBox.InputBindings>
+        </control:SearchTextBox>
+
+        <control:CustomDataGrid TabIndex="4" Grid.Row="4" Grid.Column="1" Style="{StaticResource {x:Type control:CustomDataGrid}}"  ItemsSource="{Binding SelectedCategory.Products}" SelectedItem="{Binding SelectedCategory.SelectedProduct}"  CanUserAddRows="False" AutoGenerateColumns="False" SelectionMode="Single">
+
+            <control:CustomDataGrid.RowStyle>
+                <Style TargetType="{x:Type control:CustomDataGridRow}" BasedOn="{StaticResource {x:Type control:CustomDataGridRow}}"/>
+            </control:CustomDataGrid.RowStyle>
+
+            <control:CustomDataGrid.ContextMenu >
+                <ContextMenu>
+                    <MenuItem Header="Select" Command="{Binding SelectCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                </ContextMenu>
+            </control:CustomDataGrid.ContextMenu>
+
+            <control:CustomDataGrid.Columns>
+                <DataGridTextColumn Header="SKU" Binding="{Binding Sku, Mode=OneWay}" Width="2*"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=OneWay}" Width="6*"/>
+                <DataGridTextColumn Header="Sales Unit" Binding="{Binding SUnit, Mode=OneWay}" Width="1.5*"/>
+                <DataGridTextColumn Header="Retail" Binding="{Binding Retail, Mode=OneWay, StringFormat={}{0:n2}}" Width="1*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </control:CustomDataGrid.Columns>
+        </control:CustomDataGrid>
+
+        <control:SearchTextBox  TabIndex="3" x:Name="ProductSearch" Grid.Row="5" Grid.Column="1" LabelText="Product SKU or Description"  Text="{Binding ProductSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+            <TextBox.InputBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding ProductSearchCommand}"/>
+                <KeyBinding Gesture="Esc" Command="{Binding ClearSearchCommand}" CommandParameter="{Binding ElementName=ProductSearch}"/>
+            </TextBox.InputBindings>
+        </control:SearchTextBox>
+
+    </Grid>
+</Window>

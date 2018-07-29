@@ -1,0 +1,212 @@
+﻿<Window x:Class="Quotes.View.QuotesView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Quotes.ViewModel"
+        xmlns:control="clr-namespace:QMSStyles.Control;assembly=QMSStyles"
+        xmlns:converter="clr-namespace:QMSStyles.Converter;assembly=QMSStyles"
+        mc:Ignorable="d"
+        Title="Quotes" SizeToContent="WidthAndHeight" Width="800" ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <viewModel:QuotesViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <converter:BoolToBackgroundConverter x:Key="BoolToBackgroundConverter"/>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="3 0 0 0"/>
+                <Setter Property="FontStyle" Value="Italic"/>
+                <Setter Property="FontFamily" Value="Sergio UI"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontStyle" Value="Normal"/>
+                <Setter Property="FontFamily" Value="Sergio UI"/>
+                <Setter Property="Height" Value="25"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="Calibri"/>
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/DataGrid.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/Constants.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/QmsStyles;component/Dictionary/SearchTextBox.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Quote"/>
+            <control:CustomDataGrid Grid.Row="1" ItemsSource="{Binding Quotes}" SelectedItem="{Binding SelectedQuote}" Style="{StaticResource {x:Type control:CustomDataGrid}}" CanUserAddRows="True" SelectionMode="Single" AutoGenerateColumns="False">
+                <control:CustomDataGrid.Columns>
+                    <DataGridTextColumn  Header="File No." ElementStyle="{StaticResource TextBlockStyleKey}" Binding="{Binding FileNumber, UpdateSourceTrigger=PropertyChanged}" Width="2*"/>
+                    <DataGridTemplateColumn Header="Date" Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding}" Text="{Binding Date, StringFormat=d}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker DataContext="{Binding}" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Amount" ElementStyle="{StaticResource TextBlockStyleKey}" Binding="{Binding Amount, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Width="3*">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Cost" ElementStyle="{StaticResource TextBlockStyleKey}" Binding="{Binding Cost, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Width="2*">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                </control:CustomDataGrid.Columns>
+            </control:CustomDataGrid>
+        </Grid>
+            
+
+        <Grid Grid.Row="1" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+                <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+                <RowDefinition Height="{Binding Source={StaticResource Padding}}"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Client" Grid.Row="0" Grid.Column="0" />
+            <StackPanel Grid.Row="1" Grid.Column="0" >
+                <DockPanel Height="50">
+                    <Label DockPanel.Dock="Top" Content="Name"/>
+                    <TextBox x:Name="ClientName" TabIndex="1" Text="{Binding SelectedQuote.Client.Name, UpdateSourceTrigger=PropertyChanged}" Background="{Binding SelectedQuote.Client.NameIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="2" >
+                <DockPanel Height="50">
+                    <Label DockPanel.Dock="Top" Content="Discount"/>
+                    <TextBox x:Name="Discount" TabIndex="2" Text="{Binding SelectedQuote.Client.Discount.Code, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Discount.CodeIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </StackPanel>
+            <TextBlock Text="Contact" Grid.Row="3" Grid.Column="0"/>
+            <StackPanel Grid.Row="4" Grid.Column="0" >
+                <DockPanel Height="50">
+                    <Label DockPanel.Dock="Top" Content="First Name"/>
+                    <TextBox x:Name="FirstName" TabIndex="3" Text="{Binding SelectedQuote.Client.Contact.FirstName, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.FirstNameIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="4" Grid.Column="2" >
+                <DockPanel Height="50">
+                    <Label DockPanel.Dock="Top" Content="Last Name"/>
+                    <TextBox x:Name="LastName" TabIndex="4" Text="{Binding SelectedQuote.Client.Contact.LastName, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.LastNameIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </StackPanel>
+            <TextBlock Text="Address" Grid.Row="6" Grid.Column="0" />
+            <TextBlock Text="Phone" Grid.Row="6" Grid.Column="2" />
+            <DockPanel Height="50" Grid.Row="7" Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Number"/>
+                <TextBox x:Name="Number" TabIndex="5" Text="{Binding SelectedQuote.Client.Contact.Address.Number, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Address.NumberIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="8" Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Street"/>
+                <TextBox x:Name="Street" TabIndex="6" Text="{Binding SelectedQuote.Client.Contact.Address.Street, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Address.StreetIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="9" Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Street Type"/>
+                <TextBox x:Name="StreetType" TabIndex="7" Text="{Binding SelectedQuote.Client.Contact.Address.StreetType, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Address.StreetTypeIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="10" Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Town"/>
+                <TextBox x:Name="Town" TabIndex="9" Text="{Binding SelectedQuote.Client.Contact.Address.Town, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Address.TownIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="11" Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Post Code"/>
+                <TextBox x:Name="PostCode" TabIndex="8" Text="{Binding SelectedQuote.Client.Contact.Address.PostCode, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Address.PostCodeIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="7" Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Work"/>
+                <TextBox x:Name="WorkPhone" TabIndex="10" Text="{Binding SelectedQuote.Client.Contact.Phone.WorkPhone, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Phone.WorkPhoneIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="8" Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Cell"/>
+                <TextBox x:Name="CellPhone" TabIndex="11" Text="{Binding SelectedQuote.Client.Contact.Phone.CellPhone, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Phone.CellPhoneIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+            <DockPanel Height="50" Grid.Row="9" Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="After Hours"/>
+                <TextBox x:Name="AfterHours" TabIndex="12" Text="{Binding SelectedQuote.Client.Contact.Phone.AfterHours, UpdateSourceTrigger=PropertyChanged}"  Background="{Binding SelectedQuote.Client.Contact.Phone.AfterHoursIsChanged, Converter={StaticResource BoolToBackgroundConverter}}" DockPanel.Dock="Bottom"/>
+            </DockPanel>
+        </Grid>
+        
+        <Grid Grid.Row="3" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="{Binding Source={StaticResource Padding}}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Reset" Style="{StaticResource NavigationButton}" Command="{Binding ResetCommand}" Click="MoveFocus" ToolTip="Undo all changes"/>
+            <Button Grid.Column="2" Content="Save" Style="{StaticResource NavigationButton}" Command="{Binding SaveCommand}" Click="MoveFocus" ToolTip="Save all changes"/>
+        </Grid>
+
+        <control:SearchTextBox x:Name="QuoteSearch"  Grid.Row="3" Grid.Column="1" TabIndex="0" LabelText="Search Quotes" Text="{Binding QuoteSearchTerm, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding QuoteSearchCommand}"/>
+                <KeyBinding Gesture="Esc" Command="{Binding ResetSearchCommand}" CommandParameter="{Binding ElementName=QuoteSearch}"/>
+            </TextBox.InputBindings>
+        </control:SearchTextBox>
+    </Grid>
+</Window>
