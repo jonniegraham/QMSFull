@@ -164,9 +164,9 @@ namespace WorksheetWrapper
                 excelProcess.Refresh();
                 excelProcess.Kill();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                MessageBox.Show("MESSAGE: " + e.Message + Environment.NewLine + "STACKTRACE: " + e.StackTrace);
+                // ignored
             }
         }
     }

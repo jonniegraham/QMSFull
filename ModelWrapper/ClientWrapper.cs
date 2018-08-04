@@ -69,7 +69,7 @@ namespace ModelWrapper
         }
         #endregion
 
-        #region ChangeTracking
+        #region Change Tracking
         public bool IdIsChanged => GetIsChanged(nameof(Id));
         public bool NameIsChanged => GetIsChanged(nameof(Name));
         #endregion

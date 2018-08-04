@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Quotes.ViewModel;
+using TakeoffWrapper;
 
 namespace Quotes.View
 {
@@ -11,8 +13,9 @@ namespace Quotes.View
     /// </summary>
     public partial class QuotesView
     {
-        public QuotesView()
+        public QuotesView(ref Takeoff takeoff)
         {
+            DataContext = new QuotesViewModel(takeoff);
             InitializeComponent();
         }
 

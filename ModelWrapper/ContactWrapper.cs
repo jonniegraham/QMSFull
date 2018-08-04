@@ -26,6 +26,7 @@ namespace ModelWrapper
             RegisterComplexOject(Address);
         }
         #endregion
+
         #region Simple Properties
         public int Id
         {

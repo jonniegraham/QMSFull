@@ -6,7 +6,7 @@ namespace ModelWrapper
     {
         public AddressWrapper(Address model) : base(model) { }
 
-        #region Simple Property
+        #region Simple Properties
         public int Id
         {
             get => GetValue<int>();

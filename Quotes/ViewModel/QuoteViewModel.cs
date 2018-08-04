@@ -4,14 +4,18 @@ using DataAccess;
 using ModelWrapper;
 using QMSStyles.Control;
 using Quotes.Model;
+using TakeoffWrapper;
 using Utilities;
 
 namespace Quotes.ViewModel
 {
     public class QuotesViewModel : Observable
     {
-        public QuotesViewModel()
+        private Takeoff takeoff;
+
+        public QuotesViewModel(Takeoff takeoff)
         {
+            this.takeoff = takeoff;
             GetAllQuotes();
         }
 
@@ -53,6 +57,7 @@ namespace Quotes.ViewModel
 
         #region Complex Properties
         private QuoteImp _selectedQuote;
+
         public QuoteImp SelectedQuote
         {
             get => _selectedQuote;
@@ -99,6 +104,5 @@ namespace Quotes.ViewModel
         public bool CanSave => Quotes != null && Quotes.IsChanged;
         public bool CanReset => Quotes != null && Quotes.IsChanged;
         #endregion
-
     }
 }

@@ -23,7 +23,7 @@ namespace ModelWrapper
         }
         #endregion
 
-        #region SimpleProperties
+        #region Simple Properties
         public int Id
         {
             get => GetValue<int>();
@@ -70,7 +70,7 @@ namespace ModelWrapper
         }
         #endregion
 
-        #region ChangeTracking
+        #region Change Tracking
         public bool CostIsChanged => GetIsChanged(nameof(Cost));
         public bool AmountIsChanged => GetIsChanged(nameof(Amount));
         public bool DateIsChanged => GetIsChanged(nameof(Date));

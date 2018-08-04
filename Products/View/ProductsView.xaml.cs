@@ -6,7 +6,6 @@ namespace Products.View
 {
     public partial class ProductsView : Window
     {
-
         public ProductsView(ref Takeoff takeoff)
         {
             DataContext = new ProductsViewModel(takeoff);

@@ -7,7 +7,6 @@ using Products.View;
 using Spinner;
 using TakeoffWrapper;
 using Application = System.Windows.Application;
-using Spinner = Spinner.Animation;
 
 namespace Products
 {
@@ -63,12 +62,7 @@ namespace Products
                         {
                             MessageBox.Show(e.Message);
                         }
-
-                    //}).ContinueWith(o =>
-                    //{
-
                     });
-
                 });
 
                 _productsView.Closing += _productsView_Closing;
